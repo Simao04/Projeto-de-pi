@@ -10,7 +10,7 @@ typedef struct
     char Nome[50];
     char Telefone[9];
     int Idade;
-}pessoa;
+}Pessoa;
 
 
 typedef struct
@@ -20,7 +20,7 @@ typedef struct
     char Hora[5];
     char NomeAtividade[20];
     int Duraçao;
-    int Distançia;
+    int Distancia;
     char Medida[2];
 }Atividade;
 
@@ -50,75 +50,60 @@ void File(const char* fileNome, char* data_type, void* data, size_t max_data)
     size_t i = 0;
     if (strcmp(data_type, "Pessoa") == 0)
     {
-        pessoa* Pessoa = (pessoa*)data;
-        while (i < max_data && fscanf(file, "4[^;];%99[^;];%10[^;];%d\n", Pessoa[i].NumPatricipante, Pessoa[i].Nome, Pessoa[i].Telefone, &Pessoa[i].Idade) == 4)
+        Pessoa* pessoa = (Pessoa*)data;
+        while (i < max_data && fscanf(file, "4[^;];%99[^;];%10[^;];%d\n", pessoa[i].NumPatricipante, pessoa[i].Nome, pessoa[i].Telefone, &pessoa[i].Idade) == 4)
         {
-
+            i++;
         }
 
     }
-
-}
-
-
-
-/*
-
-
-    // Read the data from the file
-    size_t i = 0;
-    if (strcmp(data_type, "person") == 0) // AQUIII   {
-        // Read data from the file as person data
-        person* people = (person*)data;
-        while (i < max_data && fscanf(file, "%4[^;];%99[^;];%10[^;];%d\n", people[i].id, people[i].name, people[i].phone, &people[i].age) == 4) {
+    else if (strcmp(data_type, "Atividade") == 0)
+    {
+        Atividade* atividade = (Atividade*)data;
+        while (i < max_data && fscanf(file, "%4[^;];%10[^;];%5[^;];%99[^;];%d;%d;%2s\n", atividade[i].NumPatricipante, atividade[i].Data, atividade[i].Hora, atividade[i].NomeAtividade, &atividade[i].Duraçao
+            , &atividade[i].Distancia, atividade[i].Medida) == 7)
+        {
             i++;
         }
     }
-    else if (strcmp(data_type, "atividade") == 0) {
-        // Read data from the file as atividade data
-        atividade* atividades = (atividade*)data;
-        while (i < max_data && fscanf(file, "%4[^;];%10[^;];%5[^;];%99[^;];%d;%d;%2s\n", atividades[i].id, atividades[i].data, atividades[i].hora, atividades[i].nome, &atividades[i].duracao, &atividades[i].distancia, atividades[i].unim) == 7) {
+    else if (strcmp(data_type, "Plano de Treino") == 0)
+    {
+        PlanoTreino* planotreino = (PlanoTreino*)data;
+        while (i < max_data && fscanf(file, "%4[^;];%10[^;];%5[^;];%99[^;];%d;%d;%2s\n", planotreino[i].NumPatricipante, planotreino[i].DataInicio, planotreino[i].HoraInicio, planotreino[i].DataFim, planotreino[i].HoraFim, planotreino[i].NomeAtvidade, planotreino[i].Medida) == 8)
+        {
             i++;
         }
     }
-    else if (strcmp(data_type, "dadosp") == 0) {
-        // Read data from the file as dadosp data
-        dadosp* dadop = (dadosp*)data;
-        while (i < max_data && fscanf(file, "%4[^;];%10[^;];%5[^;];%10[^;];%5[^;];%99[^;];%d;%2s\n", dadop[i].id, dadop[i].data, dadop[i].hora, dadop[i].dataf, dadop[i].horaf, dadop[i].nome, &dadop[i].distancia, dadop[i].unim) == 8) {
-            i++;
-        }
-    }
-
-    // Close the file
     fclose(file);
 }
 
+int ex1()
+{
+    const char* fileNome = "Praticantes.txt";
+    Pessoa pessoa[100];
+    File(fileNome, "pessoa", pessoa, 100);
 
-int ex1() {
-
-    // Read the file and store the data in an array of people
-    const char* filename = "dados_praticantes.txt";
-    person people[100];
-    read_file(filename, "person", people, 100);
-
-    // Print the data to standard output
-    for (size_t i = 0; i < 100; i++) {
-        if (strlen(people[i].id) == 0) {
+    for (size_t i = 0; i < 100; i++)
+    {
+        if (strlen(pessoa[i].NumPatricipante) == 0)
+        {
             break;
         }
 
-        printf("ID: %s, Nome: %s, Telefone: %s, Idade: %d\n", people[i].id, people[i].name, people[i].phone, people[i].age);
-
+        printf("NumPatricipante: %s, Telefone: %s, Idade:%d\n", pessoa[i].NumPatricipante, pessoa[i].Nome, pessoa[i].Telefone, pessoa[i].Idade);
     }
-    printf("\n");
 
+    printf("\n");
     return 0;
+
+
 }
 
-int ex2() {
-
-    // Read the file and store the data in an array of atividade
-    const char* filename = "ativ_praticantes.txt";
-    atividade atividade[100];
-    read_file(filename, "atividade", atividade, 100);
-    */
+/*int ex2()
+{
+    const char* fileNome = "Atividade.txt";
+    Atividade atividade[100];
+    read_file(fileNome, "Atividade", atividade, 100);
+}
+*/
+  
